@@ -13,13 +13,13 @@
          | [ ]3.3V           MOSI/D11[ ]~|   DHT22
          | [ ]V.ref     ___    SS/D10[ ]~|   wECHO
  FC28_1  | [ ]A0       / N \       D9[ ]~|   wTRIGGER
- FC28_2  | [ ]A1      /  A  \      D8[ ] |   RELAY
+ FC28_2  | [ ]A1      /  A  \      D8[ ] |   wTemp
  FC28_3  | [ ]A2      \  N  /      D7[ ] |
  FC28_4  | [ ]A3       \_0_/       D6[ ]~|   SM
    I2C   | [ ]A4/SDA               D5[ ]~|   SM
    I2C   | [ ]A5/SCL               D4[ ] |   SM
   wLevel | [ ]A6              INT1/D3[ ]~|   SM
-  wTemp  | [ ]A7              INT0/D2[ ] |   LDR
+         | [ ]A7              INT0/D2[ ] |   LDR
          | [ ]5V                  GND[ ] |
          | [ ]RST                 RST[ ] |
          | [ ]GND   5V MOSI GND   TX1[ ] |   BT
@@ -51,7 +51,8 @@ LiquidCrystal_I2C lcd(0x27, 20, 4);
 #include "ldr.h"
 #include "soil.h"
 #include "wlevel.h"
-#include "pump.h"
+//#include "pump.h"
+#include "wTemp.h"
 
 bool isNight = false;
 
@@ -98,13 +99,16 @@ void setup() {
   showStartUpMessage();
 
   // set pump
-  pm.pSetup();
+  //pm.pSetup();
 
   //init DHT22
   ht.htSetup();
 
   // init LDR
   ldr.ldrSetup();
+
+  // init water temperature
+  wC.wCSetup();
 
   // level setup
   lvl.wSetup();
@@ -131,13 +135,18 @@ void loop() {
 
     // Get water level
     lvl.getWaterLevel();
+
+    // Get water temperature
+    wC.wCLoop();
+    wC.displayValues();
     
     if(isNight && sl.getAverage() < 49 && lvl.hasWater()){
-      showInfo("Watering started");
-      pm.startPump();
-      delay(HALF_MINUTE_INTERVAL);
-      pm.stopPump();
-      showInfo("Watering finished");
+      //showInfo("Watering started");
+      //pm.startPump();
+      //delay(HALF_MINUTE_INTERVAL);
+      //pm.stopPump();
+      //showInfo("Watering finished");
+      
     }
     
     timerSensors.reset();

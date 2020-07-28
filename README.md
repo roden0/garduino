@@ -1,3 +1,4 @@
+
 # This is Garduino
 
 Hello there  this is **garduino**,  a set of tools for Arduino Nano applied to watch and water a set of plants.
@@ -7,13 +8,17 @@ Hello there  this is **garduino**,  a set of tools for Arduino Nano applied to w
 
 - 4x FC28 soil humidity sensor
 - 20x4 LCD screen with I2C backpack
-- DS18B20 Waterproof temperature sensor
+- DS18B20 Waterproof temperature sensor* (option A)
 - LM393 LDR light sensor
 - JSN-SR04T waterproof ultrasonic distance sensor
-- 28Byj-48 stepper motor
-- 10A 2-channel Relay
+- ~~28Byj-48 stepper motor~~ (option B)
+- ~~10A 2-channel Relay~~* (option B)
 - DHT22 temperature and humidity sensor
-- HC-06 BT communications module (option)
+- HC-06 BT communications module
+
+*Update:*
+*since the water temperature sensor is digital we'll use pin 8 from Relay port.
+Also BT module connected to IO pins of the Nano board will make impossible working with USB and burning the program, that's why we'll use the Stepper Motor's pins 3 & 4. Remember BT's TX goes to Nano's RX and the other way around*.
 
 ## Arduino Nano Pinout
 
